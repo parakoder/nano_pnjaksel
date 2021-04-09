@@ -1,0 +1,15 @@
+.guide-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 200px;
+}
+.txt-guide {
+    display: flex;
+    font-size: 18px;
+    flex-wrap: wrap;
+    color: white;
+    word-break: break-all;
+    width: 200px;
+    margin-top: 20px;
+}
