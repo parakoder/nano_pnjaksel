@@ -5,7 +5,7 @@
     flex-direction: column;
     // overflow: scroll;
 
-    .toolbar {
+    .header {
         display: flex;
         flex-direction: row;
         height: 100px;
@@ -77,6 +77,7 @@
             display: flex;
             flex-direction: column;
             padding: 20px;
+            // width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -102,6 +103,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             background-image: url('../../assets/img_section2.png');
             background-size: cover;
             width: 100%;
@@ -113,7 +115,136 @@
                 display: flex;
                 flex-direction: row;
                 align-items: center;
+
+                .line-arrow-guide {
+                    height: 5px;
+                    width: 150px;
+                    background: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 60px;
+                }
             }
+
+            .section2-ytcard {
+                margin: 70px 0px;
+
+                .ytcard-wrapper {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    background-color: white;
+                    border-radius: 10px;
+                    padding: 16px;
+                    width: 500px;
+
+                    .yt-thumbnail {
+                        width: 150px;
+                        border-radius: 10px;
+                    }
+
+                    .ytcard-content {
+                        display: flex;
+                        flex-direction: column;
+                        margin: 10px;
+
+                        .ytcard-txt-title {
+                            font-size: 18px;
+                            font-weight: 700;
+                            text-align: left;
+                        }
+
+                        .ytcard-txt-subtitle {
+                            font-size: 16px;
+                            font-weight: 500;
+                            text-align: left;
+                            display: flex;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
+        }
+
+        .section-3 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .section3-txt-desc {
+                color: white;
+                max-width: 65%;
+                text-align: justify;
+                font-size: 18px;
+                line-height: 40px;
+                align-self: center;
+            }
+        }
+    }
+
+    .footer {
+        height: 350px;
+        background-color: white; /*Default bg, similar to the background's base color*/
+        background-image: url('../../assets/img_bg_footer.png');
+        background-size: auto 100%;
+        background-position: right; /*Positioning*/
+        background-repeat: no-repeat; /*Prevent showing multiple background images*/
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .footer-section1 {
+            display: flex;
+            flex-direction: row;
+            // align-items: center;
+            justify-content: center;
+            padding: 0px 50px 0px 30px;
+
+            .footer-section1-content1 {
+                display: flex;
+                flex-direction: column;
+                text-align: left;
+                flex: 2;
+                justify-content: flex-start;
+
+            }
+
+            .footer-section1-content2 {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                justify-content: flex-start;
+                text-align: left;
+
+            }
+
+            .footer-section1-content3 {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                justify-content: flex-start;
+                text-align: left;
+
+            }
+
+            .footer-content-title {
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            .footer-content-subtitle {
+                font-size: 16px;
+            }
+        }
+
+        .footer-section2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 16px;
         }
     }
 }
