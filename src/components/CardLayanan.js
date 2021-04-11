@@ -1,14 +1,13 @@
 import React from 'react';
 import '../styles/card-layanan.scss';
 
-const CardLayanan = (props) => {
-    const { className, imageSource, text, onClick } = props;
-    return (
-        <div className={className} onClick={onClick}>
-            <img src={imageSource} alt='' className='img-card' />
-            <div className='txt-card'>{text}</div>
-        </div>
-    );
+const CardLayanan = ({ className, key, imageSource, text, onClick }) => {
+	return (
+		<div className={className} key={key} onClick={onClick}>
+			<img src={imageSource} alt='' className='img-card' />
+			<div className='txt-card'>{text}</div>
+		</div>
+	);
 };
 
 export default CardLayanan;

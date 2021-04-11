@@ -1,4 +1,4 @@
-@import '../../styles/breakpoints.scss';
+@import './breakpoints.scss';
 
 .home-wrapper {
     display: flex;
@@ -9,16 +9,25 @@
         display: flex;
         flex-direction: row;
         height: 100px;
-        padding: 0px 15px;
-        position: fixed;
+        position: sticky;
+        top: 0;
         width: 100%;
         background-color: white;
+        -webkit-box-shadow: 0px 3px 3px 0px rgba(150,144,150,1);
+        -moz-box-shadow: 0px 3px 3px 0px rgba(150,144,150,1);
+        box-shadow: 0px 3px 3px 0px rgba(150,144,150,1);
+
+        .menu-title {
+            text-decoration: none;
+            color: black;
+        }
 
         .title-bar {
             display: flex;
             flex: 1;
             flex-direction: row;
             align-items: center;
+            margin-left: 20px;
             // border: 1px solid black;
             // margin: 0px 10px;
 
@@ -67,7 +76,7 @@
         height: 100%;
         background-color: #1c7c93;
         background-image: linear-gradient(#1c7c93, #033750);
-        margin-top: 100px;
+        // margin-top: 100px;
 
         .banner {
             width: 100%;
@@ -85,17 +94,18 @@
             .welcome-txt {
                 color: white;
                 font-size: 24px;
-                margin-bottom: 80px;
                 text-align: center;
             }
 
             .menu-layanan {
                 display: flex;
                 flex-direction: row;
+                flex-grow: 1;
                 justify-content: space-around;
-                width: 80%;
+                width: 75%;
                 flex-wrap: wrap;
-                margin-bottom: 90px;
+                flex-basis: 40%;
+                // margin-bottom: 90px;
             }
         }
 
@@ -104,7 +114,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-image: url('../../assets/img_section2.png');
+            background-image: url('../assets/img_section2.png');
             background-size: cover;
             width: 100%;
             height: 900px;
@@ -172,6 +182,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            margin-bottom: 30px;
 
             .section3-txt-desc {
                 color: white;
@@ -187,7 +198,7 @@
     .footer {
         height: 350px;
         background-color: white; /*Default bg, similar to the background's base color*/
-        background-image: url('../../assets/img_bg_footer.png');
+        background-image: url('../assets/img_bg_footer.png');
         background-size: auto 100%;
         background-position: right; /*Positioning*/
         background-repeat: no-repeat; /*Prevent showing multiple background images*/
@@ -206,8 +217,10 @@
                 display: flex;
                 flex-direction: column;
                 text-align: left;
-                flex: 2;
+                flex: 1.5;
                 justify-content: flex-start;
+                padding: 0px 50px 0px 0px;
+                // max-width: 30%;
 
             }
 
@@ -226,6 +239,12 @@
                 flex: 1;
                 justify-content: flex-start;
                 text-align: left;
+
+                .icon-sosmed {
+                    width: 30px;
+                    margin-right: 10px;
+                    cursor: pointer;
+                }
 
             }
 
@@ -247,4 +266,115 @@
             font-size: 16px;
         }
     }
+
 }
+.modal-menu-layanan {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    outline: none;
+
+    .modal-arrow {
+        margin: 0px 40px;
+        cursor: pointer;
+    }
+
+    .modal-menu-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .modal-menu-logo {
+            position: absolute;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 75px;
+            background-color: white;
+            padding: 20px;
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .modal-menu-img {
+                width: 80px;
+            }
+        }
+
+        .modal-btn-close {
+            width: 20px;
+            background-color: white;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: flex-end;
+            margin-bottom: 20px;
+            padding: 4px;
+            cursor: pointer;
+
+        }
+
+        .modal-menu-desc {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            border-radius: 8px;
+            padding: 75px 50px 0px 50px;
+
+
+            .modal-txt-title {
+                font-size: 24px;
+                font-weight: 700;
+                text-align: start;
+                align-self: flex-start;
+            }
+
+            .modal-txt-desc-wrapper {
+                max-height: 250px;
+                overflow: auto;
+                text-align: start;
+                align-self: flex-start;
+                width: 100%;
+
+
+
+                .modal-txt-desc {
+                    font-size: 18px;
+                    line-height: 40px;
+                    text-align: start;
+                    align-self: flex-start;
+                }
+            }
+
+        }
+    }
+}
+
+

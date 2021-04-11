@@ -1,33 +1,63 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import './homepage.scss';
+import '../../styles/homepage.scss';
 import Buttons from '../../components/Buttons';
 import CardLayanan from '../../components/CardLayanan';
-import Gap from '../../components/Gap';
 import { FaChevronRight, FaYoutube } from 'react-icons/fa';
 import { RiShareBoxLine } from 'react-icons/ri';
 import Guide from '../../components/Guide';
+import {
+	AiFillCaretLeft,
+	AiFillCaretRight,
+	AiOutlineClose,
+} from 'react-icons/ai';
+import res from '../../data.json';
+import { IMAGESOURCE } from '../../services/utils/static';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
 		display: 'flex',
+		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-	},
-	paper: {
-		backgroundColor: theme.palette.background.paper,
-		border: '2px solid #000',
-		boxShadow: theme.shadows[5],
-		padding: theme.spacing(2, 4, 3),
+		backgroundColor: 'rgba(37,40,43, 0.7)',
+		outline: 'none',
 	},
 }));
 
 const Homepage = () => {
 	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
+
+	const [selectedMenu, setSelectedMenu] = useState('layanan');
+
+	console.log('datanya', res);
+	console.log('datanya', IMAGESOURCE);
+
+	const [menuLayanan, setMenuLayanan] = useState([]);
+
+	const [selectedLayanan, setSelectedLayanan] = useState({
+		id: 0,
+		layanan: '',
+		description: [],
+	});
+
+	useEffect(() => {
+		let newArr = [];
+		res.data &&
+			res.data.map((o, i) => {
+				let item = {
+					...o,
+					imageSource: IMAGESOURCE[i].imageSource,
+				};
+				return newArr.push(item);
+			});
+		setMenuLayanan(newArr);
+		return () => {};
+	}, []);
 
 	const handleOpen = () => {
 		setOpen(true);
@@ -35,6 +65,18 @@ const Homepage = () => {
 
 	const handleClose = () => {
 		setOpen(false);
+	};
+
+	const onPreviousLayanan = () => {
+		const findObj = menuLayanan.find((o) => o.id === selectedLayanan.id - 1);
+		setSelectedLayanan(findObj);
+		// console.log('findObj', findObj);
+	};
+
+	const onNextLayanan = () => {
+		const findObj = menuLayanan.find((o) => o.id === selectedLayanan.id + 1);
+		setSelectedLayanan(findObj);
+		console.log('findObj', findObj);
 	};
 
 	return (
@@ -58,9 +100,42 @@ const Homepage = () => {
 					</div>
 				</div>
 				<div className='menu-bar'>
-					<div>Layanan</div>
-					<div>Cara Pengambilan</div>
-					<div>Ketentuan Pengambilan</div>
+					<a
+						className='menu-title'
+						href='#layanan'
+						onClick={() => {
+							setSelectedMenu('layanan');
+						}}
+						style={{
+							fontWeight: selectedMenu === 'layanan' ? 'bold' : 'normal',
+						}}
+					>
+						Layanan
+					</a>
+					<a
+						className='menu-title'
+						href='#pengambilan'
+						onClick={() => {
+							setSelectedMenu('pengambilan');
+						}}
+						style={{
+							fontWeight: selectedMenu === 'pengambilan' ? 'bold' : 'normal',
+						}}
+					>
+						Cara Pengambilan
+					</a>
+					<a
+						className='menu-title'
+						href='#ketentuan'
+						onClick={() => {
+							setSelectedMenu('ketentuan');
+						}}
+						style={{
+							fontWeight: selectedMenu === 'ketentuan' ? 'bold' : 'normal',
+						}}
+					>
+						Ketentuan Pengambilan
+					</a>
 				</div>
 			</div>
 			<div className='body'>
@@ -74,61 +149,35 @@ const Homepage = () => {
 						Selamat Datang di Aplikasi Antrian Online Pengadilan Negeri Jakarta
 						Selatan
 					</div>
-					<div style={{ marginTop: 30, marginBottom: 30 }}>
+					<div style={{ marginTop: 30 }}>
 						<Buttons
+							id='layanan'
 							className='button-1'
 							text='Pilih Meja Layanan'
 							onClick={() => alert('Pengadilan')}
 						/>
 					</div>
 					<div className='menu-layanan'>
-						<CardLayanan
-							imageSource={require('../../assets/img_e-Court.png').default}
-							className='card-1'
-							text='E-Court'
-						/>
-
-						<CardLayanan
-							imageSource={require('../../assets/img_information.png').default}
-							className='card-1'
-							text='Pengaduan & Informasi'
-						/>
-						<CardLayanan
-							imageSource={
-								require('../../assets/img_kepanitraan_hukum.png').default
-							}
-							className='card-1'
-							text='Kepaniteraan Hukum'
-						/>
-						<CardLayanan
-							imageSource={
-								require('../../assets/img_kepaniteraan_pidana.png').default
-							}
-							className='card-1'
-							text='Kepaniteraan Pidana'
-						/>
-						<CardLayanan
-							imageSource={require('../../assets/img_perdata.png').default}
-							className='card-1'
-							text='Upaya Hukum Perdata'
-						/>
-						<CardLayanan
-							imageSource={
-								require('../../assets/img_salinan_putusan.png').default
-							}
-							className='card-1'
-							text='Salinan Putusan Perdata/Eksekusi'
-						/>
-						<CardLayanan
-							imageSource={require('../../assets/img_umum_surat.png').default}
-							className='card-1'
-							text='Umum dan Surat Masuk'
-						/>
+						{menuLayanan.map((val) => {
+							return (
+								<CardLayanan
+									key={val.id}
+									imageSource={val.imageSource}
+									className='card-1'
+									text={val.layanan}
+									onClick={() => {
+										handleOpen();
+										setSelectedLayanan(val);
+									}}
+								/>
+							);
+						})}
 					</div>
 				</div>
 				<div className='section-2'>
 					<div style={{ marginTop: 50, marginBottom: 50 }}>
 						<Buttons
+							id='pengambilan'
 							className='button-1'
 							text='Cara Mengambil Nomor Antrian'
 							onClick={() => alert('test')}
@@ -177,6 +226,7 @@ const Homepage = () => {
 				<div className='section-3'>
 					<div style={{ marginTop: 30, marginBottom: 30 }}>
 						<Buttons
+							id='ketentuan'
 							className='button-1'
 							text='Ketentuan Pengambilan Nomor Antrian'
 							onClick={() => alert('Pengadilan')}
@@ -219,16 +269,20 @@ const Homepage = () => {
 					</div>
 					<div className='footer-section1-content3'>
 						<p className='footer-content-title'>Kanal Sosial</p>
-						<p>ig youtube</p>
+						<div>
+							<img
+								src={require('../../assets/img_ig.png').default}
+								alt='ig.png'
+								className='icon-sosmed'
+							/>
+							<FaYoutube color='red' size={32} className='icon-sosmed' />
+						</div>
 					</div>
 				</div>
 				<p className='footer-section2'>
 					© Copyright 2021 Pengadilan Negeri Jakarta Selatan
 				</p>
 			</div>
-			{/* <button type='button' onClick={handleOpen}>
-                Click Modal
-            </button> */}
 			<Modal
 				aria-labelledby='transition-modal-title'
 				aria-describedby='transition-modal-description'
@@ -243,11 +297,65 @@ const Homepage = () => {
 				}}
 			>
 				<Fade in={open}>
-					<div className={classes.paper}>
-						<h2 id='transition-modal-title'>Transition modal</h2>
-						<p id='transition-modal-description'>
-							react-transition-group animates me.
-						</p>
+					<div className='modal-menu-layanan'>
+						{selectedLayanan.id > 1 ? (
+							<AiFillCaretLeft
+								size={50}
+								color='white'
+								className='modal-arrow'
+								onClick={onPreviousLayanan}
+							/>
+						) : (
+							<div className='modal-arrow' />
+						)}
+
+						<div className='modal-menu-wrapper'>
+							<div className='modal-btn-close' onClick={() => setOpen(false)}>
+								<AiOutlineClose size={20} />
+							</div>
+							<div>
+								<div className='modal-menu-logo'>
+									<img
+										src={selectedLayanan.imageSource}
+										alt='modal.png'
+										className='modal-menu-img'
+									/>
+								</div>
+								<div className='modal-menu-desc'>
+									<p className='modal-txt-title'>
+										Informasi Layanan {selectedLayanan.layanan}
+									</p>
+									<div className='modal-txt-desc-wrapper'>
+										{selectedLayanan &&
+											selectedLayanan.description.map((o) => {
+												return <div className='modal-txt-desc'>{o}</div>;
+											})}
+									</div>
+									<div
+										style={{
+											marginTop: 50,
+											marginBottom: 30,
+										}}
+									>
+										<Buttons
+											className='button-2'
+											onClick={() => alert('Booking')}
+											text='Booking Now'
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+						{selectedLayanan.id < 7 ? (
+							<AiFillCaretRight
+								size={50}
+								color='white'
+								className='modal-arrow'
+								onClick={onNextLayanan}
+							/>
+						) : (
+							<div className='modal-arrow' />
+						)}
 					</div>
 				</Fade>
 			</Modal>

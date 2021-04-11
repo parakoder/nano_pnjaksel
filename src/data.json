@@ -1,0 +1,90 @@
+{
+    "status": 200,
+    "message": "Berhasil",
+    "data": [
+        {
+            "id": 1,
+            "layanan": "E-Court",
+            "description": [
+                "1. Pendaftaran Perkara Gugatan.",
+                "2. Pendaftaran Perkara Gugatan Sederhana.",
+                "3. Pendaftaran Perkara Perlawanan atau Bantahan.",
+                "4. Pendaftaran Perkara Permohonan.",
+                "5. Pendaftaran Perkara Verzet atas Putusan Verstek."
+            ]
+        },
+        {
+            "id": 2,
+            "layanan": "Pengaduan & Informasi",
+            "description": [
+                "1. Hak Permohonan Informasi.",
+                "2. Prosedur Permohonan Informasi.",
+                "3. Alur Permohonan Informasi.",
+                "4. Laporan Pelayanan Informasi.",
+                "5. Hak Pelapor dan Terlapor.",
+                "6. Mekanisme pengaduan.",
+                "7. Formulir pengaduan.",
+                "8. Penyampaian Pengaduan.",
+                "9. Alur dan tahapan pengaduan."
+            ]
+        },
+        {
+            "id": 3,
+            "layanan": "Kepaniteraan Hukum",
+            "description": [
+                "1. Penerimaan Pelimpahan Berkas Perkara Pidana Biasa, Cepat/Ringan, dan Lalu Lintas",
+                "2. Pendaftaran Permohonan Pra Peradilan",
+                "3. Penerimaan Permohonan Banding, Kasasi, dan Peninjauan Kembali dan Grasi",
+                "4. Penerimaan Memori dan Kontra Memori Banding, Kasasi, dan Peninjauan Kembali" ,
+                "5. Penerimaan Pencabutan Permohonan Banding, Kasasi, dan Peninjauan Kembali",
+                "6. Penerimaan dan Pengembalian Permohonan seperti : ",
+                    "a. Izin/Persetujuan Penggeledahan dan Penyitaan",
+                    "b. Izin/Persetujuan Pemusnahan Barang Bukti",
+                    "c. Perpanjangan Penahanan",
+                    "d. Pembantaran",
+                    "e. Izin Besuk",
+                "f. Permohonan Diversi",
+                "7Layanan lainnya yang Berhubungan Dengan Proses dan Informasi Penyelesaian Perkata Pidana"
+            ]
+        },
+        {
+            "id": 4,
+            "layanan": "Kepaniteraan Pidana",
+            "description": [
+                "1. Penerimaan Pelimpahan Berkas Perkara Pidana Biasa, Cepat/Ringan, dan Lalu Lintas",
+                "2. Pendaftaran Permohonan Pra Peradilan",
+                "3. Penerimaan Permohonan Banding, Kasasi, dan Peninjauan Kembali dan Grasi",
+                "4.  Penerimaan Memori dan Kontra Memori Banding, Kasasi, dan Peninjauan Kembali Selanjutnya..."
+            ]
+        },
+        {
+            "id": 5,
+            "layanan": "Upaya Hukum Perdata",
+            "description": [
+                "1. Pendaftaran Permohonan Banding, Kasasi, dan Peninjauan Kembali",
+                "2. Penerimaan Memori dan Kontra Banding, Kasasi dan Peninjauan Kembali",
+                "3. Pendaftaran Permohonan Sumpah Atas ditemukannya bukti baru dalam Permohonan Peninjauan Kembali",
+                "4. Permohonan Pencabutan Banding,  Kasasi, dan  Peninjauan Kembali"
+            ]
+        },
+        {
+            "id": 6,
+            "layanan": "Salinan Putusan Perdata/Eksekusi",
+            "description": [
+                "1. Permohonan Pengambilan Salinan Putusan",
+                "2. Permohonan Eksekusi",
+                "3. Permohonan Konsinyasi",
+                "4. Permohonan Pencabutan Eksekusi dan Konsinyasi"
+            ]
+        },
+        {
+            "id": 7,
+            "layanan": "Umum & Surat Masuk",
+            "description": [
+                "1. Umum",
+                "2. Tata Usaha ",
+                "3. Surat Masuk"
+            ]
+        }
+    ]
+}
