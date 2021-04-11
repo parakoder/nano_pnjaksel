@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -162,6 +164,10 @@ const Form = () => {
 			setStep(3);
 		}
 	};
+
+	const [valueDate, onChangeDate] = useState(new Date());
+
+	const [showDate, setShowDate] = useState(false);
 
 	return (
 		<div className='form-wrapper'>
@@ -663,8 +669,34 @@ const Form = () => {
 													<span style={{ color: 'red' }}>*</span>
 												</div>
 												<div>
-													<input className='input-txt' />
+													<input
+														className='input-txt'
+														onClick={() => setShowDate(!showDate)}
+														value={valueDate}
+														contentEditable={false}
+													/>
 												</div>
+												{showDate ? (
+													<div
+														style={{
+															display: 'flex',
+															justifyContent: 'flex-end',
+														}}
+													>
+														<Calendar
+															onChange={(date) => {
+																onChangeDate(date);
+																setShowDate(!showDate);
+																console.log('datenya', date);
+															}}
+															value={valueDate}
+															locale='id'
+															tileDisabled={({ activeStartDate, date, view }) =>
+																date.getDay() === 6 || date.getDay() === 0
+															}
+														/>
+													</div>
+												) : null}
 											</div>
 										</div>
 										<div className='form-input'>
