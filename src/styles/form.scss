@@ -1,0 +1,291 @@
+@import '../styles/breakpoints.scss';
+
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .form-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 80px;
+        position: sticky;
+        top: 0;
+        background-color: white;
+        -webkit-box-shadow: 0px 3px 3px 0px rgba(150,144,150,1);
+        -moz-box-shadow: 0px 3px 3px 0px rgba(150,144,150,1);
+        box-shadow: 0px 3px 3px 0px rgba(150,144,150,1);
+
+        .header-logo {
+            margin-right: 10px;
+            .img-logo {
+                height: 70px;
+                 width: 55px;
+            }
+        }
+
+        .header-title {
+            display: flex;
+            flex-direction: column;
+
+            .header-title1 {
+                font-size: 18px;
+                color: #0d461b;
+                font-weight: 600;
+            }
+
+            .header-title2 {
+                font-size: 18px;
+                color: #9e0b0b;
+                font-weight: 600;
+            }
+        }
+    }
+
+    .form-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        background-color: #1c7c93;
+        background-image: linear-gradient(#1c7c93, #033750);
+
+        .form-body-content {
+            display: flex;
+            flex-direction: column;
+            margin: 30px 50px;
+            width: 90%;
+            justify-content: center;
+            align-items: center;
+
+            .header-back-btn {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                color: white;
+                font-size: 16px;
+                font-weight: 600;
+                align-self: flex-start;
+                cursor: pointer;
+            }
+
+            .form-body-title {
+                font-size: 24px;
+                font-weight: 900;
+                color: white;
+                margin: 30px 0px 20px 0px;
+            }
+
+            .form-body-stepper {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin: 0px 0px 20px 0px;
+
+                .stepper-done {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 25px;
+                    background-color: #8BA577;
+                }
+
+                .line {
+                    height: 3px;
+                    width: 100px;
+                    background-color: white;
+                }
+
+                .stepper-notyet {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 25px;
+                    background-color: white;
+                }
+            }
+
+            .form-body-card {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background-color: white;
+                width: 100%;
+                border-radius: 10px;
+
+                .card-content {
+                    margin: 40px;
+
+                    .card-header {
+                        font-size: 24px;
+                        font-weight: 600;
+                    }
+
+                    .card-body {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        margin: 20px 5px;
+                        width: 100%;
+
+                        .card-body-section {
+                            display: flex;
+                            flex-direction: row;
+                            flex: 1;
+
+                            @include media('<=tablet') {
+                                display: flex;
+                                flex-direction: column;
+                                flex: 1;
+                            }
+
+                            .form-ask {
+                                display: flex;
+                                flex-direction: column;
+                                flex: 1;
+                                margin-bottom: 10px;
+
+                                .form-ask-word {
+                                    display: flex;
+                                    justify-content: flex-start;
+                                    text-align: left;
+                                    margin-right: 10px;
+                                }
+
+                                .form-ask-option {
+                                    display: flex;
+                                    flex-direction: row;
+                                    margin: 10px;
+
+                                    .form-ask-option-check {
+                                        display: flex;
+                                        flex-direction: row;
+                                        align-items: center;
+                                        margin-right: 10px;
+                                    }
+                                }
+                            }
+
+                            .form-input {
+                                display: flex;
+                                flex-direction: column;
+                                flex: 1;
+                                margin-right: 20px;
+
+                                .form-input-section {
+                                    margin-bottom: 20px;
+                                }
+
+                                .mark-important {
+                                    color: red;
+                                }
+
+                                .input-title {
+                                    text-align: left;
+                                    font-size: 18px;
+                                    font-weight: 500;
+                                    margin-bottom: 10px;
+                                }
+
+                                .input-txt {
+                                    border-radius: 5px;
+                                    background-color: #F1F1F1;
+                                    height: 50px;
+                                    width: 100%;
+                                    border: none;
+                                    text-indent: 14px;
+                                }
+
+                                .input-txt-error {
+                                    border-radius: 5px;
+                                    background-color: #F1F1F1;
+                                    height: 50px;
+                                    width: 100%;
+                                    border: 1px solid red;
+                                    text-indent: 14px;
+                                }
+
+                                .form-ask-option {
+                                    display: flex;
+                                    flex-direction: row;
+                                    margin: 10px;
+
+                                    .form-ask-option-check {
+                                        display: flex;
+                                        flex-direction: row;
+                                        align-items: center;
+                                        margin-right: 10px;
+                                    }
+                                }
+                            }
+
+                            .empty-view {
+                                display: flex;
+                                flex: 1
+                            }
+
+                            .form-pernyataan {
+                                display: flex;
+                                flex: 1;
+                            }
+                        }
+
+                        .ic-check {
+                            width: 120px;
+                        }
+
+                        .txt-book-done {
+                            font-size: 28px;
+                            font-weight: 600;
+                        }
+
+                        .txt-check-email {
+                            font-size: 18px;
+                        }
+                    }
+
+                    .card-footer {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 50px 0px 0px 0px;
+                        justify-content: space-evenly;
+                    }
+                }
+            }
+        }
+    }
+    .modal-step-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        width: 80%;
+        border-radius: 10px;
+        outline: none;
+
+        .modal-step-1 {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+
+            .modal-step-1-content {
+                background-color: white;
+            }
+        }
+    }
+
+    .modal-title {
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+}

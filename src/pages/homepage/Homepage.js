@@ -14,8 +14,9 @@ import {
 	AiFillCaretRight,
 	AiOutlineClose,
 } from 'react-icons/ai';
-import res from '../../data.json';
+import res from '../../services/utils/data.json';
 import { IMAGESOURCE } from '../../services/utils/static';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Homepage = () => {
 	const classes = useStyles();
+	const history = useHistory();
 	const [open, setOpen] = useState(false);
 
 	const [selectedMenu, setSelectedMenu] = useState('layanan');
@@ -339,8 +341,13 @@ const Homepage = () => {
 									>
 										<Buttons
 											className='button-2'
-											onClick={() => alert('Booking')}
 											text='Booking Now'
+											onClick={() =>
+												history.push({
+													pathname: '/form',
+													state: selectedLayanan.layanan,
+												})
+											}
 										/>
 									</div>
 								</div>
