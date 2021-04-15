@@ -17,6 +17,7 @@ import {
 import res from '../../services/utils/data.json';
 import { IMAGESOURCE } from '../../services/utils/static';
 import { useHistory } from 'react-router-dom';
+import { GetAllPelayanan } from '../../services/handlers/PelayananHandler';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -49,15 +50,22 @@ const Homepage = () => {
 
 	useEffect(() => {
 		let newArr = [];
-		res.data &&
-			res.data.map((o, i) => {
-				let item = {
-					...o,
-					imageSource: IMAGESOURCE[i].imageSource,
-				};
-				return newArr.push(item);
+		GetAllPelayanan()
+			.then((res) => {
+				console.log('ressdad', res);
+				res.data &&
+					res.data.map((o, i) => {
+						let item = {
+							...o,
+							imageSource: IMAGESOURCE[i].imageSource,
+						};
+						return newArr.push(item);
+					});
+				setMenuLayanan(newArr);
+			})
+			.catch((err) => {
+				console.log('err res', err);
 			});
-		setMenuLayanan(newArr);
 		return () => {};
 	}, []);
 
@@ -70,13 +78,26 @@ const Homepage = () => {
 	};
 
 	const onPreviousLayanan = () => {
-		const findObj = menuLayanan.find((o) => o.id === selectedLayanan.id - 1);
+		const findObj = menuLayanan.find(
+			(o) =>
+				o.id ===
+				(selectedLayanan.id > 1
+					? selectedLayanan.id - 1
+					: menuLayanan[menuLayanan.length - 1].id)
+		);
 		setSelectedLayanan(findObj);
 		// console.log('findObj', findObj);
 	};
 
+	// const onPreviousLayananLoop = () => {};
+
 	const onNextLayanan = () => {
-		const findObj = menuLayanan.find((o) => o.id === selectedLayanan.id + 1);
+		console.log('mmmm', menuLayanan);
+		const findObj = menuLayanan.find(
+			(o) =>
+				o.id ===
+				(selectedLayanan.id < 7 ? selectedLayanan.id + 1 : menuLayanan[0].id)
+		);
 		setSelectedLayanan(findObj);
 		console.log('findObj', findObj);
 	};
@@ -160,18 +181,19 @@ const Homepage = () => {
 						/>
 					</div>
 					<div className='menu-layanan'>
-						{menuLayanan.map((val) => {
+						{menuLayanan.map((val, i) => {
 							return (
-								<CardLayanan
-									key={val.id}
-									imageSource={val.imageSource}
-									className='card-1'
-									text={val.layanan}
-									onClick={() => {
-										handleOpen();
-										setSelectedLayanan(val);
-									}}
-								/>
+								<div key={val.id}>
+									<CardLayanan
+										imageSource={val.imageSource}
+										className='card-1'
+										text={val.pelayanan}
+										onClick={() => {
+											handleOpen();
+											setSelectedLayanan(val);
+										}}
+									/>
+								</div>
 							);
 						})}
 					</div>
@@ -206,23 +228,38 @@ const Homepage = () => {
 						/>
 					</div>
 					<div className='section2-ytcard'>
-						<div className='ytcard-wrapper'>
-							<img
-								src={require('../../assets/img_ytcard.png').default}
-								alt='ytcard'
-								className='yt-thumbnail'
-							/>
-							<div className='ytcard-content'>
-								<div className='ytcard-txt-title'>
-									Pelayanan Terpadu Satu Pintu Pengadilan Negri Jakarta Selatan
-								</div>
-								<div className='ytcard-txt-subtitle'>
-									<FaYoutube color='red' size={30} />
-									<span style={{ margin: '0px 10px' }}>Tonton di Youtube</span>
-									<RiShareBoxLine size={15} />
+						<a
+							href='https://www.youtube.com/watch?v=Jza4bWYCSQg'
+							target='_blank'
+							alt='yt'
+							rel='noreferrer'
+							style={{
+								textDecoration: 'none',
+								color: 'black',
+								cursor: 'pointer',
+							}}
+						>
+							<div className='ytcard-wrapper'>
+								<img
+									src={require('../../assets/img_ytcard.png').default}
+									alt='ytcard'
+									className='yt-thumbnail'
+								/>
+								<div className='ytcard-content'>
+									<div className='ytcard-txt-title'>
+										Pelayanan Terpadu Satu Pintu Pengadilan Negri Jakarta
+										Selatan
+									</div>
+									<div className='ytcard-txt-subtitle'>
+										<FaYoutube color='red' size={30} />
+										<span style={{ margin: '0px 10px' }}>
+											Tonton di Youtube
+										</span>
+										<RiShareBoxLine size={15} />
+									</div>
 								</div>
 							</div>
-						</div>
+						</a>
 					</div>
 				</div>
 				<div className='section-3'>
@@ -272,12 +309,26 @@ const Homepage = () => {
 					<div className='footer-section1-content3'>
 						<p className='footer-content-title'>Kanal Sosial</p>
 						<div>
-							<img
-								src={require('../../assets/img_ig.png').default}
-								alt='ig.png'
-								className='icon-sosmed'
-							/>
-							<FaYoutube color='red' size={32} className='icon-sosmed' />
+							<a
+								href='https://www.instagram.com/pn.jakartaselatan/'
+								style={{ cursor: 'pointer' }}
+								target='_blank'
+								rel='noreferrer'
+							>
+								<img
+									src={require('../../assets/img_ig.png').default}
+									alt='ig.png'
+									className='icon-sosmed'
+								/>
+							</a>
+							<a
+								href='https://www.youtube.com/channel/UCBM0SDZ4uyDg9zG6UO_-OKw'
+								style={{ cursor: 'pointer' }}
+								target='_blank'
+								rel='noreferrer'
+							>
+								<FaYoutube color='red' size={32} className='icon-sosmed' />
+							</a>
 						</div>
 					</div>
 				</div>
@@ -300,17 +351,21 @@ const Homepage = () => {
 			>
 				<Fade in={open}>
 					<div className='modal-menu-layanan'>
-						{selectedLayanan.id > 1 ? (
+						{/* {selectedLayanan.id > 1 ? ( */}
+						<AiFillCaretLeft
+							size={50}
+							color='white'
+							className='modal-arrow'
+							onClick={onPreviousLayanan}
+						/>
+						{/* ) : (
 							<AiFillCaretLeft
 								size={50}
 								color='white'
 								className='modal-arrow'
-								onClick={onPreviousLayanan}
+								onClick={onPreviousLayananLoop}
 							/>
-						) : (
-							<div className='modal-arrow' />
-						)}
-
+						)} */}
 						<div className='modal-menu-wrapper'>
 							<div className='modal-btn-close' onClick={() => setOpen(false)}>
 								<AiOutlineClose size={20} />
@@ -325,7 +380,7 @@ const Homepage = () => {
 								</div>
 								<div className='modal-menu-desc'>
 									<p className='modal-txt-title'>
-										Informasi Layanan {selectedLayanan.layanan}
+										Informasi Layanan {selectedLayanan.pelayanan}
 									</p>
 									<div className='modal-txt-desc-wrapper'>
 										{selectedLayanan &&
@@ -353,16 +408,13 @@ const Homepage = () => {
 								</div>
 							</div>
 						</div>
-						{selectedLayanan.id < 7 ? (
-							<AiFillCaretRight
-								size={50}
-								color='white'
-								className='modal-arrow'
-								onClick={onNextLayanan}
-							/>
-						) : (
-							<div className='modal-arrow' />
-						)}
+						{/* {selectedLayanan.id < 7 ? ( */}
+						<AiFillCaretRight
+							size={50}
+							color='white'
+							className='modal-arrow'
+							onClick={onNextLayanan}
+						/>
 					</div>
 				</Fade>
 			</Modal>

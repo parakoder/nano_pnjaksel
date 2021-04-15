@@ -5,18 +5,18 @@ import Homepage from './pages/homepage/Homepage';
 import Form from './pages/form/Form';
 
 function App() {
-    return (
-        <div className='App'>
-            <Switch>
-                <Route path='/form'>
-                    <Form />
-                </Route>
-                <Route path='/'>
-                    <Homepage />
-                </Route>
-            </Switch>
-        </div>
-    );
+	return (
+		<>
+			<Switch>
+				<Route path='/form'>
+					<Form />
+				</Route>
+				<Route path='/'>
+					<Homepage />
+				</Route>
+			</Switch>
+		</>
+	);
 }
 
 export default App;

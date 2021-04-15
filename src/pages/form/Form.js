@@ -817,7 +817,8 @@ const Form = () => {
 							<Buttons
 								className='button-2'
 								text='OK'
-								onClick={() => setModalStep1(false)}
+								// onClick={() => setModalStep1(false)}
+								onClick={() => history.goBack()}
 							/>
 						</div>
 					</div>
