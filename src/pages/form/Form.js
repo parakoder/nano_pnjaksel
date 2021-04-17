@@ -14,29 +14,17 @@ import { FaPlusSquare, FaUserAlt } from 'react-icons/fa';
 import { useHistory, useLocation } from 'react-router-dom';
 import Buttons from '../../components/Buttons';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
 import { ARRIVAL_TIME } from '../../services/utils/constants';
 import { CheckAvailableDateHandler } from '../../services/handlers/ScheduleHandler';
-import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import { BookingHandler } from '../../services/handlers/BookingHandler';
+import Modals from '../../components/Modals';
 
 const useStyles = makeStyles((theme) => ({
-	modal: {
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: 'rgba(37,40,43, 0.7)',
-		outline: 'none',
-	},
 	paper: {
 		backgroundColor: theme.palette.background.paper,
 		outline: 'none',
@@ -101,7 +89,6 @@ const Form = () => {
 			ask4 === null ||
 			ask5 === false
 		) {
-			// alert('Mohon Check List pada Form yang tersedia');
 			setErrorModalAsk(true);
 		} else if (
 			ask1 === 'tidak' &&
@@ -999,232 +986,166 @@ const Form = () => {
 					</div>
 				</div>
 			</div>
-			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
-				className={classes.modal}
+			<Modals
 				open={modalStep1}
 				onClose={handleCloseModalStep1}
-				closeAfterTransition
 				disableBackdropClick
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}
-			>
-				<Fade in={modalStep1}>
-					<div className={classes.paper}>
-						<div style={{ fontSize: 24, fontWeight: 700 }}>
-							Maaf, Permohonan Anda Ditolak
+				children={
+					<Fade in={modalStep1}>
+						<div className={classes.paper}>
+							<div
+								style={{ fontSize: 24, fontWeight: 700, textAlign: 'center' }}
+							>
+								Maaf, Permohonan Anda Ditolak
+							</div>
+							<div
+								style={{
+									fontSize: 18,
+									textAlign: 'center',
+									margin: 30,
+								}}
+							>
+								Permohonan Pengajuan Nomor Antrian Anda terpaksa kami tolak
+								karena Anda belum memenuhi syarat Penilaian Kesehatan kami.
+								Mohon Ajukan kembali lain waktu.
+							</div>
+							<div>
+								<Buttons
+									className='button-2'
+									text='OK'
+									onClick={() => history.goBack()}
+								/>
+							</div>
 						</div>
-						<div
-							style={{
-								fontSize: 18,
-								textAlign: 'center',
-								margin: '30px 30px',
-							}}
-						>
-							Permohonan Pengajuan Nomor Antrian Anda terpaksa kami tolak karena
-							Anda belum memenuhi syarat Penilaian Kesehatan kami. Mohon Ajukan
-							kembali lain waktu.
+					</Fade>
+				}
+			/>
+
+			<Modals
+				open={modalCancelConfirm}
+				onClose={handleCloseModalCancelConfirm}
+				disableBackdropClick
+				children={
+					<Fade in={modalCancelConfirm}>
+						<div className={classes.paper}>
+							<div
+								style={{ fontSize: 24, fontWeight: 700, textAlign: 'center' }}
+							>
+								Konfirmasi Pembatalan
+							</div>
+							<div
+								style={{
+									fontSize: 18,
+									textAlign: 'center',
+									margin: 30,
+								}}
+							>
+								Apakah Anda yakin untuk membatalkan proses penginputan ? Anda
+								harus memasukkan data Anda kembali apabila membatalkan proses
+								ini.
+							</div>
+							<div
+								style={{
+									width: '100%',
+									display: 'flex',
+									justifyContent: 'space-evenly',
+								}}
+							>
+								<Buttons
+									className='button-3'
+									text='Tidak'
+									onClick={handleCloseModalCancelConfirm}
+								/>
+								<Buttons
+									className='button-2'
+									text='Ya, Batalkan'
+									onClick={() => {
+										setModalStep1(false);
+										history.goBack();
+									}}
+								/>
+							</div>
 						</div>
-						<div
-							style={{
-								width: '100%',
-								display: 'flex',
-								justifyContent: 'center',
-							}}
-						>
+					</Fade>
+				}
+			/>
+
+			<Modals
+				open={errorModalAsk}
+				onClose={handleCloseErrorModalAsk}
+				disableBackdropClick
+				children={
+					<div className={classes.simpleDialog}>
+						<VscIssueClosed size={50} color='red' />
+						<div style={{ fontSize: 18, margin: 20 }}>
+							Mohon Check List pada Form yang tersedia
+						</div>
+						<div style={{ marginTop: 20 }}>
 							<Buttons
 								className='button-2'
 								text='OK'
-								onClick={() => history.goBack()}
+								onClick={() => setErrorModalAsk(false)}
 							/>
 						</div>
 					</div>
-				</Fade>
-			</Modal>
+				}
+			/>
 
-			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
-				className={classes.modal}
-				open={modalCancelConfirm}
-				onClose={handleCloseModalCancelConfirm}
-				closeAfterTransition
-				disableBackdropClick
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}
-			>
-				<Fade in={modalCancelConfirm}>
-					<div className={classes.paper}>
-						<div style={{ fontSize: 24, fontWeight: 700 }}>
-							Konfirmasi Pembatalan
+			<Modals
+				open={isLoading}
+				onClose={handleCloseLoading}
+				disableBackdropClick={false}
+				children={
+					<div className={classes.simpleDialog}>
+						<CircularProgress color='secondary' />
+						<div style={{ fontSize: 18, marginTop: 20 }}>
+							Memeriksa Ketersediaan Jadwal
 						</div>
+					</div>
+				}
+			/>
+
+			<Modals
+				open={isAvailable}
+				onClose={() => setIsAvailable(false)}
+				disableBackdropClick
+				children={
+					<div className={classes.simpleDialog}>
+						<VscIssueClosed
+							size={50}
+							color='red'
+							style={{ marginBottom: 20 }}
+						/>
 						<div
 							style={{
 								fontSize: 18,
-								textAlign: 'center',
-								margin: '30px 30px',
+								marginTop: 20,
 							}}
 						>
-							Apakah Anda yakin untuk membatalkan proses penginputan ? Anda
-							harus memasukkan data Anda kembali apabila membatalkan proses ini.
+							Tidak Tersedia Jadwal Hari ini. Silahkan Pilih Tanggal Lain
 						</div>
-						<div
-							style={{
-								width: '100%',
-								display: 'flex',
-								justifyContent: 'space-evenly',
-							}}
-						>
-							<Buttons
-								className='button-3'
-								text='Tidak'
-								onClick={handleCloseModalCancelConfirm}
-							/>
+						<div>
 							<Buttons
 								className='button-2'
-								text='Ya, Batalkan'
-								onClick={() => {
-									setModalStep1(false);
-									history.goBack();
-								}}
+								text='OK'
+								onClick={() => setIsAvailable(false)}
 							/>
 						</div>
 					</div>
-				</Fade>
-			</Modal>
+				}
+			/>
 
-			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
-				className={classes.modal}
-				open={isLoading}
-				onClose={handleCloseLoading}
-				closeAfterTransition
-				// disableBackdropClick
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}
-			>
-				<div className={classes.simpleDialog}>
-					<CircularProgress color='secondary' />
-					<div
-						style={{
-							color: 'black',
-							fontSize: 18,
-							margin: '20px 0px 0px 0px',
-						}}
-					>
-						Memeriksa Ketersediaan Jadwal
-					</div>
-				</div>
-			</Modal>
-
-			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
-				className={classes.modal}
-				open={isAvailable}
-				onClose={() => setIsAvailable(false)}
-				closeAfterTransition
-				disableBackdropClick
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}
-			>
-				<div className={classes.simpleDialog}>
-					<VscIssueClosed size={50} color='red' style={{ marginBottom: 20 }} />
-					<div
-						style={{
-							color: 'black',
-							fontSize: 18,
-							margin: '20px 0px',
-						}}
-					>
-						Tidak Tersedia Jadwal Hari ini. Silahkan Pilih Tanggal Lain
-					</div>
-					<div>
-						<Buttons
-							className='button-2'
-							text='OK'
-							onClick={() => setIsAvailable(false)}
-						/>
-					</div>
-				</div>
-			</Modal>
-
-			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
-				className={classes.modal}
-				open={errorModalAsk}
-				onClose={handleCloseErrorModalAsk}
-				closeAfterTransition
-				disableBackdropClick
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}
-			>
-				<div className={classes.simpleDialog}>
-					<VscIssueClosed size={50} color='red' />
-					<div
-						style={{
-							color: 'black',
-							fontSize: 18,
-							margin: '20px 0px 0px 0px',
-						}}
-					>
-						Mohon Check List pada Form yang tersedia
-					</div>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							marginTop: 20,
-						}}
-					>
-						<Buttons
-							className='button-2'
-							text='OK'
-							onClick={() => setErrorModalAsk(false)}
-						/>
-					</div>
-				</div>
-			</Modal>
-
-			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
-				className={classes.modal}
+			<Modals
 				open={isLoadingBooking}
 				onClose={() => setIsLoadingBooking(false)}
-				closeAfterTransition
-				// disableBackdropClick
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}
-			>
-				<div className={classes.simpleDialog}>
-					<CircularProgress color='secondary' />
-					<div
-						style={{
-							color: 'black',
-							fontSize: 18,
-							margin: '20px 0px 0px 0px',
-						}}
-					>
-						Proses Booking
+				disableBackdropClick={false}
+				children={
+					<div className={classes.simpleDialog}>
+						<CircularProgress color='secondary' />
+						<div style={{ fontSize: 18, marginTop: 20 }}>Proses Booking</div>
 					</div>
-				</div>
-			</Modal>
+				}
+			/>
 		</div>
 	);
 };

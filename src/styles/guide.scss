@@ -1,8 +1,29 @@
-.guide-wrapper {
+@import './breakpoints.scss';
+
+.guide-wrapper-tablet {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 200px;
+
+    @include media('<tablet') {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 30px;
+        width: auto;
+    }
+}
+
+.guide-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 200px;
+
+    @include media('<tablet') {
+        width: auto;
+    }
 }
 .txt-guide {
     display: flex;
@@ -13,4 +34,26 @@
     width: 200px;
     margin-top: 20px;
     white-space: pre-wrap;
+
+    @include media('<tablet') {
+        margin-top: 0px;
+        font-size: 16px;
+    }
+}
+
+.guide-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 100px;
+
+    @include media('<tablet') {
+        width: 25vw;
+        height: 25vw;
+        object-fit: cover;
+        object-position: center;
+        margin-right: 20px;
+    }
+
 }

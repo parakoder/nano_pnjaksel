@@ -13,7 +13,7 @@ export const BookingHandler = async (data, idPelayanan) => {
 				alamat: data.alamat,
 				email: data.email,
 				noHp: data.no_hp,
-				jamKedatangan: 1,
+				jamKedatangan: data.waktu,
 				idPelayanan: idPelayanan,
 			}
 		);

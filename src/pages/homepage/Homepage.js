@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import '../../styles/homepage.scss';
 import Buttons from '../../components/Buttons';
 import CardLayanan from '../../components/CardLayanan';
 import { FaChevronRight, FaYoutube } from 'react-icons/fa';
 import { RiShareBoxLine } from 'react-icons/ri';
+import { IoMenuOutline, IoCloseOutline } from 'react-icons/io5';
 import Guide from '../../components/Guide';
 import {
 	AiFillCaretLeft,
@@ -18,20 +16,9 @@ import res from '../../services/utils/data.json';
 import { IMAGESOURCE } from '../../services/utils/constants';
 import { useHistory } from 'react-router-dom';
 import { GetAllPelayanan } from '../../services/handlers/PelayananHandler';
-
-const useStyles = makeStyles((theme) => ({
-	modal: {
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: 'rgba(37,40,43, 0.7)',
-		outline: 'none',
-	},
-}));
+import Modals from '../../components/Modals';
 
 const Homepage = () => {
-	const classes = useStyles();
 	const history = useHistory();
 	const [open, setOpen] = useState(false);
 
@@ -86,7 +73,6 @@ const Homepage = () => {
 					: menuLayanan[menuLayanan.length - 1].id)
 		);
 		setSelectedLayanan(findObj);
-		// console.log('findObj', findObj);
 	};
 
 	const onNextLayanan = () => {
@@ -100,65 +86,131 @@ const Homepage = () => {
 		console.log('findObj', findObj);
 	};
 
+	const [isBurgerShow, setIsBurgerShow] = useState(true);
+
+	const onBurgerClick = () => {};
+
 	return (
 		<div className='home-wrapper'>
-			<div className='header'>
-				<div className='title-bar'>
-					<div className='title-bar-logo'>
-						<img
-							src={require('../../assets/img_logo.png').default}
-							alt='logo.png'
-							className='img-logo'
-						/>
-					</div>
-					<div className='title-bar-txt'>
-						<div className='title-bar-txt-1'>
-							Pengadilan Negeri Jakarta Selatan
+			<div className='header-wrapper'>
+				<div className='header'>
+					<div className='title-bar'>
+						<div className='title-bar-logo'>
+							<img
+								src={require('../../assets/img_logo.png').default}
+								alt='logo.png'
+								className='img-logo'
+							/>
 						</div>
-						<div className='title-bar-txt-2'>
-							Mahkamah Agung Republik Indonesia
+						<div className='title-bar-txt'>
+							<div className='title-bar-txt-1'>
+								Pengadilan Negeri Jakarta Selatan
+							</div>
+							<div className='title-bar-txt-2'>
+								Mahkamah Agung Republik Indonesia
+							</div>
+						</div>
+					</div>
+					<div className='menu-bar'>
+						<div className='main-menu'>
+							<a
+								className='menu-title'
+								href='#layanan'
+								onClick={() => {
+									setSelectedMenu('layanan');
+								}}
+								style={{
+									fontWeight: selectedMenu === 'layanan' ? 'bold' : 'normal',
+								}}
+							>
+								Layanan
+							</a>
+							<a
+								className='menu-title'
+								href='#pengambilan'
+								onClick={() => {
+									setSelectedMenu('pengambilan');
+								}}
+								style={{
+									fontWeight:
+										selectedMenu === 'pengambilan' ? 'bold' : 'normal',
+								}}
+							>
+								Cara Pengambilan
+							</a>
+							<a
+								className='menu-title'
+								href='#ketentuan'
+								onClick={() => {
+									setSelectedMenu('ketentuan');
+								}}
+								style={{
+									fontWeight: selectedMenu === 'ketentuan' ? 'bold' : 'normal',
+								}}
+							>
+								Ketentuan Pengambilan
+							</a>
+						</div>
+						<div className='burger-menu'>
+							{isBurgerShow ? (
+								<IoMenuOutline
+									size={40}
+									onClick={() => setIsBurgerShow(false)}
+								/>
+							) : (
+								<IoCloseOutline
+									size={40}
+									onClick={() => setIsBurgerShow(true)}
+								/>
+							)}
 						</div>
 					</div>
 				</div>
-				<div className='menu-bar'>
-					<a
-						className='menu-title'
-						href='#layanan'
-						onClick={() => {
-							setSelectedMenu('layanan');
-						}}
-						style={{
-							fontWeight: selectedMenu === 'layanan' ? 'bold' : 'normal',
-						}}
-					>
-						Layanan
-					</a>
-					<a
-						className='menu-title'
-						href='#pengambilan'
-						onClick={() => {
-							setSelectedMenu('pengambilan');
-						}}
-						style={{
-							fontWeight: selectedMenu === 'pengambilan' ? 'bold' : 'normal',
-						}}
-					>
-						Cara Pengambilan
-					</a>
-					<a
-						className='menu-title'
-						href='#ketentuan'
-						onClick={() => {
-							setSelectedMenu('ketentuan');
-						}}
-						style={{
-							fontWeight: selectedMenu === 'ketentuan' ? 'bold' : 'normal',
-						}}
-					>
-						Ketentuan Pengambilan
-					</a>
-				</div>
+				{!isBurgerShow ? (
+					<div className='header-burger'>
+						<a
+							className='header-burger-menu'
+							href='#layanan'
+							onClick={() => {
+								setSelectedMenu('layanan');
+								setIsBurgerShow(true);
+							}}
+							style={{
+								fontWeight: selectedMenu === 'layanan' ? 'bold' : 'normal',
+							}}
+						>
+							Layanan
+						</a>
+						<a
+							className='header-burger-menu'
+							href='#pengambilan'
+							onClick={() => {
+								setSelectedMenu('pengambilan');
+								setIsBurgerShow(true);
+							}}
+							style={{
+								fontWeight: selectedMenu === 'pengambilan' ? 'bold' : 'normal',
+							}}
+						>
+							Cara Pengambilan
+						</a>
+						<a
+							className='header-burger-menu'
+							href='#ketentuan'
+							onClick={() => {
+								setSelectedMenu('ketentuan');
+								setIsBurgerShow(true);
+							}}
+							style={{
+								fontWeight: selectedMenu === 'ketentuan' ? 'bold' : 'normal',
+							}}
+						>
+							Ketentuan Pengambilan
+						</a>
+					</div>
+				) : null}
 			</div>
+
 			<div className='body'>
 				<img
 					src={require('../../assets/img_banner.png').default}
@@ -334,79 +386,71 @@ const Homepage = () => {
 					© Copyright 2021 Pengadilan Negeri Jakarta Selatan
 				</p>
 			</div>
-			<Modal
-				aria-labelledby='transition-modal-title'
-				aria-describedby='transition-modal-description'
-				className={classes.modal}
+			<Modals
 				open={open}
 				onClose={handleClose}
-				closeAfterTransition
 				disableBackdropClick
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}
-			>
-				<Fade in={open}>
-					<div className='modal-menu-layanan'>
-						<AiFillCaretLeft
-							size={50}
-							color='white'
-							className='modal-arrow'
-							onClick={onPreviousLayanan}
-						/>
-						<div className='modal-menu-wrapper'>
-							<div className='modal-btn-close' onClick={() => setOpen(false)}>
-								<AiOutlineClose size={20} />
-							</div>
-							<div>
-								<div className='modal-menu-logo'>
-									<img
-										src={selectedLayanan.imageSource}
-										alt='modal.png'
-										className='modal-menu-img'
-									/>
+				children={
+					<Fade in={open}>
+						<div className='modal-menu-layanan'>
+							<AiFillCaretLeft
+								size={50}
+								color='white'
+								className='modal-arrow'
+								onClick={onPreviousLayanan}
+							/>
+							<div className='modal-menu-wrapper'>
+								<div className='modal-btn-close' onClick={() => setOpen(false)}>
+									<AiOutlineClose size={20} />
 								</div>
-								<div className='modal-menu-desc'>
-									<p className='modal-txt-title'>
-										Informasi Layanan {selectedLayanan.pelayanan}
-									</p>
-									<div className='modal-txt-desc-wrapper'>
-										{selectedLayanan &&
-											selectedLayanan.description.map((o) => {
-												return <div className='modal-txt-desc'>{o}</div>;
-											})}
-									</div>
-									<div
-										style={{
-											marginTop: 50,
-											marginBottom: 30,
-										}}
-									>
-										<Buttons
-											className='button-2'
-											text='Booking Now'
-											onClick={() =>
-												history.push({
-													pathname: '/form',
-													state: selectedLayanan,
-												})
-											}
+								<div>
+									<div className='modal-menu-logo'>
+										<img
+											src={selectedLayanan.imageSource}
+											alt='modal.png'
+											className='modal-menu-img'
 										/>
 									</div>
+									<div className='modal-menu-desc'>
+										<p className='modal-txt-title'>
+											Informasi Layanan {selectedLayanan.pelayanan}
+										</p>
+										<div className='modal-txt-desc-wrapper'>
+											{selectedLayanan &&
+												selectedLayanan.description.map((o) => {
+													return <div className='modal-txt-desc'>{o}</div>;
+												})}
+										</div>
+										<div
+											style={{
+												marginTop: 50,
+												marginBottom: 30,
+											}}
+										>
+											<Buttons
+												className='button-2'
+												text='Booking Now'
+												onClick={() =>
+													history.push({
+														pathname: '/form',
+														state: selectedLayanan,
+													})
+												}
+											/>
+										</div>
+									</div>
 								</div>
 							</div>
+							<AiFillCaretRight
+								size={50}
+								color='white'
+								className='modal-arrow'
+								onClick={onNextLayanan}
+							/>
 						</div>
-						{/* {selectedLayanan.id < 7 ? ( */}
-						<AiFillCaretRight
-							size={50}
-							color='white'
-							className='modal-arrow'
-							onClick={onNextLayanan}
-						/>
-					</div>
-				</Fade>
-			</Modal>
+					</Fade>
+				}
+			/>
 		</div>
 	);
 };
