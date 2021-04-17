@@ -28,3 +28,26 @@ export const IMAGESOURCE = [
 		imageSource: require('../../assets/img_umum_surat.png').default,
 	},
 ];
+
+export const ARRIVAL_TIME = [
+	{
+		id: 1,
+		time: '09:00 - 10:00',
+	},
+	{
+		id: 2,
+		time: '10:00 - 11:00',
+	},
+	{
+		id: 3,
+		time: '11:00 - 12:00',
+	},
+	{
+		id: 4,
+		time: '12:00 - 13:00',
+	},
+	{
+		id: 5,
+		time: '13:00 - 14:00',
+	},
+];

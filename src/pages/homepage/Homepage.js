@@ -15,7 +15,7 @@ import {
 	AiOutlineClose,
 } from 'react-icons/ai';
 import res from '../../services/utils/data.json';
-import { IMAGESOURCE } from '../../services/utils/static';
+import { IMAGESOURCE } from '../../services/utils/constants';
 import { useHistory } from 'react-router-dom';
 import { GetAllPelayanan } from '../../services/handlers/PelayananHandler';
 
@@ -44,7 +44,7 @@ const Homepage = () => {
 
 	const [selectedLayanan, setSelectedLayanan] = useState({
 		id: 0,
-		layanan: '',
+		pelayanan: '',
 		description: [],
 	});
 
@@ -88,8 +88,6 @@ const Homepage = () => {
 		setSelectedLayanan(findObj);
 		// console.log('findObj', findObj);
 	};
-
-	// const onPreviousLayananLoop = () => {};
 
 	const onNextLayanan = () => {
 		console.log('mmmm', menuLayanan);
@@ -351,21 +349,12 @@ const Homepage = () => {
 			>
 				<Fade in={open}>
 					<div className='modal-menu-layanan'>
-						{/* {selectedLayanan.id > 1 ? ( */}
 						<AiFillCaretLeft
 							size={50}
 							color='white'
 							className='modal-arrow'
 							onClick={onPreviousLayanan}
 						/>
-						{/* ) : (
-							<AiFillCaretLeft
-								size={50}
-								color='white'
-								className='modal-arrow'
-								onClick={onPreviousLayananLoop}
-							/>
-						)} */}
 						<div className='modal-menu-wrapper'>
 							<div className='modal-btn-close' onClick={() => setOpen(false)}>
 								<AiOutlineClose size={20} />
@@ -400,7 +389,7 @@ const Homepage = () => {
 											onClick={() =>
 												history.push({
 													pathname: '/form',
-													state: selectedLayanan.layanan,
+													state: selectedLayanan,
 												})
 											}
 										/>

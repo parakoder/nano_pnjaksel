@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../styles/form.scss';
 import { IoChevronBackOutline } from 'react-icons/io5';
 import { AiFillClockCircle } from 'react-icons/ai';
+import { BsDownload } from 'react-icons/bs';
+import { VscIssueClosed } from 'react-icons/vsc';
 import {
 	MdRadioButtonUnchecked,
 	MdRadioButtonChecked,
@@ -17,6 +19,14 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import moment from 'moment';
+import { ARRIVAL_TIME } from '../../services/utils/constants';
+import { CheckAvailableDateHandler } from '../../services/handlers/ScheduleHandler';
+import Dialog from '@material-ui/core/Dialog';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { BookingHandler } from '../../services/handlers/BookingHandler';
 
 const useStyles = makeStyles((theme) => ({
 	modal: {
@@ -32,6 +42,16 @@ const useStyles = makeStyles((theme) => ({
 		outline: 'none',
 		padding: theme.spacing(2, 4, 3),
 		width: '60%',
+		borderRadius: 10,
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	simpleDialog: {
+		backgroundColor: theme.palette.background.paper,
+		outline: 'none',
+		padding: '20px',
 		borderRadius: 10,
 		display: 'flex',
 		flexDirection: 'column',
@@ -71,6 +91,8 @@ const Form = () => {
 		setModalStep1(false);
 	};
 
+	const [errorModalAsk, setErrorModalAsk] = useState(false);
+
 	const onNextStep1 = () => {
 		if (
 			ask1 === null ||
@@ -79,7 +101,8 @@ const Form = () => {
 			ask4 === null ||
 			ask5 === false
 		) {
-			alert('Mohon Check List pada Form yang tersedia');
+			// alert('Mohon Check List pada Form yang tersedia');
+			setErrorModalAsk(true);
 		} else if (
 			ask1 === 'tidak' &&
 			ask2 === 'tidak' &&
@@ -91,6 +114,10 @@ const Form = () => {
 		} else {
 			setModalStep1(true);
 		}
+	};
+
+	const handleCloseErrorModalAsk = () => {
+		setErrorModalAsk(false);
 	};
 
 	console.log('stepcuy', step);
@@ -165,9 +192,110 @@ const Form = () => {
 		}
 	};
 
-	const [valueDate, onChangeDate] = useState(new Date());
+	const [arrAvailabelTime, setArrAvailabelTime] = useState([
+		{
+			id: 0,
+			time: '',
+		},
+	]);
+
+	const [showListAvailable, setShowListAvailable] = useState(false);
+	const [selectedJam, setSelectedJam] = useState(null);
+
+	const [valueDate, onChangeDate] = useState(null);
 
 	const [showDate, setShowDate] = useState(false);
+
+	const [isLoading, setIsLoading] = useState(false);
+
+	const findTime = (avTime) => {
+		const obj = ARRIVAL_TIME.find((o) => o.id === avTime);
+		return obj;
+	};
+
+	const [isAvailable, setIsAvailable] = useState(false);
+
+	const checkSchedule = async (date) => {
+		setIsLoading(true);
+		try {
+			const response = await CheckAvailableDateHandler(date, location.state.id);
+			console.log('response check handler', response);
+			if (response.status === 200) {
+				if (response.data.isAvailable === true) {
+					let newArr = [];
+					response.data.availableTime.map((val) => {
+						let item = {
+							id: val,
+							time: findTime(val).time,
+						};
+						return newArr.push(item);
+					});
+					setArrAvailabelTime(newArr);
+					setShowListAvailable(true);
+					setIsLoading(false);
+					setIsAvailable(false);
+				} else {
+					setIsAvailable(true);
+					setIsLoading(false);
+					setShowListAvailable(false);
+				}
+			}
+		} catch (error) {
+			console.log('error');
+			setIsLoading(false);
+		}
+	};
+
+	const handleCloseLoading = () => {
+		setIsLoading(false);
+	};
+
+	const onSelectedJam = (value) => {
+		setSelectedJam(value);
+		setShowListAvailable(false);
+	};
+
+	const [isLoadingBooking, setIsLoadingBooking] = useState(false);
+
+	const onBookingPress = () => {
+		if (valueDate === null) {
+			setErrorTgl(true);
+		}
+
+		if (selectedJam === null) {
+			setErrorWaktu(true);
+		}
+
+		if (valueDate !== null && selectedJam !== null) {
+			setIsLoadingBooking(true);
+			BookingHandler(dataDiri, location.state.id)
+				.then((res) => {
+					console.log('res booking', res);
+					if (res.status === 200) {
+						setIsLoadingBooking(false);
+						setStep(4);
+					}
+				})
+				.catch((err) => {
+					console.log('err booking', err);
+					alert(err);
+					setIsLoadingBooking(false);
+				});
+		}
+	};
+
+	const [countdownEmail, setCountdownEmail] = useState(20);
+
+	useEffect(() => {
+		if (step === 4 && countdownEmail > 0) {
+			setTimeout(() => setCountdownEmail(countdownEmail - 1), 1000);
+		}
+		return () => {
+			console.log('unmount timer');
+		};
+	}, [countdownEmail]);
+
+	console.log('dataDiri', dataDiri);
 
 	return (
 		<div className='form-wrapper'>
@@ -198,7 +326,7 @@ const Form = () => {
 						/>
 						Kembali ke Menu Pelayanan
 					</div>
-					<div className='form-body-title'>{location.state}</div>
+					<div className='form-body-title'>{location.state.pelayanan}</div>
 					<div className='form-body-stepper'>
 						<div className='stepper-done'>
 							<FaPlusSquare size={30} color='white' />
@@ -223,7 +351,9 @@ const Form = () => {
 										? 'Penilaian Kesehatan'
 										: step === 2
 										? 'Identitas Diri'
-										: 'Waktu'}
+										: step === 3
+										? 'Waktu'
+										: null}
 								</div>
 							</div>
 							{step === 1 ? (
@@ -508,7 +638,7 @@ const Form = () => {
 												</div>
 												<div className='form-ask-option'>
 													<div className='form-ask-option-check'>
-														{dataDiri.jk === 'laki' ? (
+														{dataDiri.jk === 'laki-laki' ? (
 															<MdRadioButtonChecked
 																size={30}
 																color='#8BA577'
@@ -523,7 +653,7 @@ const Form = () => {
 																size={30}
 																color='#C4C4C4'
 																onClick={() => {
-																	setDataDiri({ ...dataDiri, jk: 'laki' });
+																	setDataDiri({ ...dataDiri, jk: 'laki-laki' });
 																	setErrorJK(false);
 																}}
 																style={{ cursor: 'pointer' }}
@@ -666,14 +796,24 @@ const Form = () => {
 											<div className='form-input-section'>
 												<div className='input-title'>
 													Tanggal Kedatangan :{' '}
-													<span style={{ color: 'red' }}>*</span>
+													<span style={{ color: 'red' }}>*</span>{' '}
+													<span style={{ color: 'red', fontStyle: 'italic' }}>
+														{errorTgl ? '(harus diisi)' : null}{' '}
+													</span>
 												</div>
 												<div>
 													<input
-														className='input-txt'
+														className={
+															errorTgl ? 'input-txt-error' : 'input-txt'
+														}
 														onClick={() => setShowDate(!showDate)}
-														value={valueDate}
+														value={
+															valueDate === null
+																? ''
+																: moment(valueDate).format('DD MMM YYYY')
+														}
 														contentEditable={false}
+														readOnly
 													/>
 												</div>
 												{showDate ? (
@@ -681,18 +821,28 @@ const Form = () => {
 														style={{
 															display: 'flex',
 															justifyContent: 'flex-end',
+															marginTop: 5,
 														}}
 													>
 														<Calendar
 															onChange={(date) => {
 																onChangeDate(date);
 																setShowDate(!showDate);
-																console.log('datenya', date);
+																checkSchedule(
+																	moment(date).format('YYYY-MM-DD')
+																);
+																setErrorTgl(false);
+																setDataDiri({
+																	...dataDiri,
+																	tanggal: moment(date).format('YYYY-MM-DD'),
+																});
 															}}
 															value={valueDate}
 															locale='id'
 															tileDisabled={({ activeStartDate, date, view }) =>
-																date.getDay() === 6 || date.getDay() === 0
+																date.getDay() === 6 ||
+																date.getDay() === 0 ||
+																date < new Date()
 															}
 														/>
 													</div>
@@ -703,11 +853,51 @@ const Form = () => {
 											<div className='form-input-section'>
 												<div className='input-title'>
 													Jam Pelayanan :{' '}
-													<span style={{ color: 'red' }}>*</span>
+													<span style={{ color: 'red' }}>*</span>{' '}
+													<span style={{ color: 'red', fontStyle: 'italic' }}>
+														{errorWaktu ? '(harus diisi)' : null}{' '}
+													</span>
 												</div>
 												<div>
-													<input className='input-txt' />
+													<input
+														className={
+															errorWaktu ? 'input-txt-error' : 'input-txt'
+														}
+														readOnly
+														aria-controls='simple-menu'
+														aria-haspopup='true'
+														value={
+															selectedJam === null
+																? ''
+																: selectedJam.time + ' WIB'
+														}
+														onClick={() => {
+															if (valueDate !== null) {
+																setShowListAvailable(!showListAvailable);
+															}
+														}}
+													/>
 												</div>
+												{showListAvailable && arrAvailabelTime.length > 0 ? (
+													<div className='wrapper-avtime'>
+														Pilih Jam Pelayanan
+														{arrAvailabelTime.map((val) => {
+															return (
+																<div
+																	className='item-list-avtime'
+																	key={val.id}
+																	onClick={() => {
+																		onSelectedJam(val);
+																		setErrorWaktu(false);
+																		setDataDiri({ ...dataDiri, waktu: val.id });
+																	}}
+																>
+																	{val.time} WIB
+																</div>
+															);
+														})}
+													</div>
+												) : null}
 											</div>
 										</div>
 									</div>
@@ -729,6 +919,18 @@ const Form = () => {
 										<div className='txt-book-done'>Pemesanan Berhasil</div>
 										<div className='txt-check-email'>
 											Silahkan cek Email Anda untuk melihat data pemesanan.
+										</div>
+										<div className='txt-countdown-resend'>
+											<span
+												style={{
+													cursor: 'pointer',
+													color: 'red',
+													fontWeight: 'bold',
+												}}
+											>
+												klik disini
+											</span>{' '}
+											jika tidak ada pesan masuk ({countdownEmail})
 										</div>
 									</div>
 								</div>
@@ -763,15 +965,34 @@ const Form = () => {
 										<Buttons
 											className='button-2'
 											text='Booking'
-											onClick={() => alert('next')}
+											onClick={onBookingPress}
 										/>
 									</>
 								) : (
-									<Buttons
-										className='button-2'
-										text='Selesai'
-										onClick={() => alert('next')}
-									/>
+									<>
+										<Buttons
+											className='button-2'
+											text='Selesai'
+											onClick={() => setCountdownEmail(20)}
+											// onClick={() => history.goBack()}
+										/>
+										<Buttons
+											className='button-3'
+											text={
+												<div
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+													}}
+												>
+													<BsDownload size={20} style={{ marginRight: 10 }} />{' '}
+													Download
+												</div>
+											}
+											onClick={onBookingPress}
+										/>
+									</>
 								)}
 							</div>
 						</div>
@@ -817,7 +1038,6 @@ const Form = () => {
 							<Buttons
 								className='button-2'
 								text='OK'
-								// onClick={() => setModalStep1(false)}
 								onClick={() => history.goBack()}
 							/>
 						</div>
@@ -832,7 +1052,7 @@ const Form = () => {
 				open={modalCancelConfirm}
 				onClose={handleCloseModalCancelConfirm}
 				closeAfterTransition
-				// disableBackdropClick
+				disableBackdropClick
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
@@ -876,6 +1096,134 @@ const Form = () => {
 						</div>
 					</div>
 				</Fade>
+			</Modal>
+
+			<Modal
+				aria-labelledby='transition-modal-title'
+				aria-describedby='transition-modal-description'
+				className={classes.modal}
+				open={isLoading}
+				onClose={handleCloseLoading}
+				closeAfterTransition
+				// disableBackdropClick
+				BackdropComponent={Backdrop}
+				BackdropProps={{
+					timeout: 500,
+				}}
+			>
+				<div className={classes.simpleDialog}>
+					<CircularProgress color='secondary' />
+					<div
+						style={{
+							color: 'black',
+							fontSize: 18,
+							margin: '20px 0px 0px 0px',
+						}}
+					>
+						Memeriksa Ketersediaan Jadwal
+					</div>
+				</div>
+			</Modal>
+
+			<Modal
+				aria-labelledby='transition-modal-title'
+				aria-describedby='transition-modal-description'
+				className={classes.modal}
+				open={isAvailable}
+				onClose={() => setIsAvailable(false)}
+				closeAfterTransition
+				disableBackdropClick
+				BackdropComponent={Backdrop}
+				BackdropProps={{
+					timeout: 500,
+				}}
+			>
+				<div className={classes.simpleDialog}>
+					<VscIssueClosed size={50} color='red' style={{ marginBottom: 20 }} />
+					<div
+						style={{
+							color: 'black',
+							fontSize: 18,
+							margin: '20px 0px',
+						}}
+					>
+						Tidak Tersedia Jadwal Hari ini. Silahkan Pilih Tanggal Lain
+					</div>
+					<div>
+						<Buttons
+							className='button-2'
+							text='OK'
+							onClick={() => setIsAvailable(false)}
+						/>
+					</div>
+				</div>
+			</Modal>
+
+			<Modal
+				aria-labelledby='transition-modal-title'
+				aria-describedby='transition-modal-description'
+				className={classes.modal}
+				open={errorModalAsk}
+				onClose={handleCloseErrorModalAsk}
+				closeAfterTransition
+				disableBackdropClick
+				BackdropComponent={Backdrop}
+				BackdropProps={{
+					timeout: 500,
+				}}
+			>
+				<div className={classes.simpleDialog}>
+					<VscIssueClosed size={50} color='red' />
+					<div
+						style={{
+							color: 'black',
+							fontSize: 18,
+							margin: '20px 0px 0px 0px',
+						}}
+					>
+						Mohon Check List pada Form yang tersedia
+					</div>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							marginTop: 20,
+						}}
+					>
+						<Buttons
+							className='button-2'
+							text='OK'
+							onClick={() => setErrorModalAsk(false)}
+						/>
+					</div>
+				</div>
+			</Modal>
+
+			<Modal
+				aria-labelledby='transition-modal-title'
+				aria-describedby='transition-modal-description'
+				className={classes.modal}
+				open={isLoadingBooking}
+				onClose={() => setIsLoadingBooking(false)}
+				closeAfterTransition
+				// disableBackdropClick
+				BackdropComponent={Backdrop}
+				BackdropProps={{
+					timeout: 500,
+				}}
+			>
+				<div className={classes.simpleDialog}>
+					<CircularProgress color='secondary' />
+					<div
+						style={{
+							color: 'black',
+							fontSize: 18,
+							margin: '20px 0px 0px 0px',
+						}}
+					>
+						Proses Booking
+					</div>
+				</div>
 			</Modal>
 		</div>
 	);

@@ -51,7 +51,7 @@
         // justify-content: center;
         align-items: center;
         width: 100%;
-        height: 100%;
+        // height: 100%;
         background-color: #1c7c93;
         background-image: linear-gradient(#1c7c93, #033750);
 
@@ -121,6 +121,7 @@
                 background-color: white;
                 width: 100%;
                 border-radius: 10px;
+                margin: 40px 0px;
 
                 .card-content {
                     margin: 40px;
@@ -128,6 +129,7 @@
                     .card-header {
                         font-size: 24px;
                         font-weight: 600;
+                        text-align: center;
                     }
 
                     .card-body {
@@ -226,6 +228,23 @@
                                         margin-right: 10px;
                                     }
                                 }
+
+                                .wrapper-avtime {
+                                    border: 1px solid gray;
+                                    // border-radius: 5px;
+                                    padding: 5px 20px;
+                                    margin-top: 5px;
+                                    font-weight: 500;
+                                    // width: 100%;
+
+                                    .item-list-avtime {
+                                        // width: 100%;
+                                        margin: 20px 0px;
+                                        cursor: pointer;
+                                        font-weight: 400;
+                                    }
+                                }
+
                             }
 
                             .empty-view {
@@ -246,10 +265,16 @@
                         .txt-book-done {
                             font-size: 28px;
                             font-weight: 600;
+                            margin-bottom: 20px;
                         }
 
                         .txt-check-email {
                             font-size: 18px;
+
+                        }
+
+                        .txt-countdown-resend {
+                            margin: 30px 0px;
                         }
                     }
 
