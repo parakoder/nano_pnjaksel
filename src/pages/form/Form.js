@@ -527,22 +527,30 @@ const Form = () => {
 									<div className='card-body-section'>
 										<div className='empty-view'></div>
 										<div className='form-pernyataan'>
-											{ask5 ? (
-												<MdCheckBox
-													size={40}
-													color='#8BA577'
-													style={{ marginRight: 10, cursor: 'pointer' }}
-													onClick={() => setAsk5(!ask5)}
-												/>
-											) : (
-												<MdCheckBoxOutlineBlank
-													size={40}
-													color='#C4C4C4'
-													style={{ marginRight: 10, cursor: 'pointer' }}
-													onClick={() => setAsk5(!ask5)}
-												/>
-											)}
-											<div style={{ textAlign: 'left' }}>
+											<div style={{ maxWidth: 50 }}>
+												{ask5 ? (
+													<MdCheckBox
+														size={40}
+														color='#8BA577'
+														style={{ marginRight: 10, cursor: 'pointer' }}
+														onClick={() => setAsk5(!ask5)}
+													/>
+												) : (
+													<MdCheckBoxOutlineBlank
+														size={40}
+														color='#C4C4C4'
+														style={{ marginRight: 10, cursor: 'pointer' }}
+														onClick={() => setAsk5(!ask5)}
+													/>
+												)}
+											</div>
+											<div
+												style={{
+													display: 'flex',
+													flex: 1,
+													textAlign: 'left',
+												}}
+											>
 												Saya menyatakan bahwa data yang diisi adalah benar dan
 												sesuai dengan kenyataan sebenarnya
 											</div>
@@ -953,6 +961,7 @@ const Form = () => {
 											className='button-2'
 											text='Booking'
 											onClick={onBookingPress}
+											// onClick={() => setStep(4)}
 										/>
 									</>
 								) : (
@@ -960,8 +969,8 @@ const Form = () => {
 										<Buttons
 											className='button-2'
 											text='Selesai'
-											onClick={() => setCountdownEmail(20)}
-											// onClick={() => history.goBack()}
+											// onClick={() => setCountdownEmail(20)}
+											onClick={() => history.goBack()}
 										/>
 										<Buttons
 											className='button-3'
