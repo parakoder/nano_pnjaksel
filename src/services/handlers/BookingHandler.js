@@ -1,26 +1,29 @@
 import axios from 'axios';
 
-export const BookingHandler = async (data, idPelayanan) => {
-	console.log('data handler', data);
-	console.log('id pel handler', idPelayanan);
-	try {
-		const response = await axios.post(
-			`${process.env.REACT_APP_ROOT_API}/createAntrian`,
-			{
-				namaLengkap: data.nama_lengkap,
-				noIdentitas: data.no_ktp,
-				jenisKelamin: data.jk,
-				alamat: data.alamat,
-				email: data.email,
-				noHp: data.no_hp,
-				jamKedatangan: data.waktu,
-				idPelayanan: idPelayanan,
-			}
-		);
-		console.log('res get schedule', response);
-		return Promise.resolve(response.data);
-	} catch (error) {
-		console.log('err get schedule', error.request);
-		return Promise.reject(error);
-	}
+export const BookingHandler = async (dataDiri, idPelayanan) => {
+    console.log('data handler', dataDiri);
+    console.log('id pel handler', idPelayanan);
+    try {
+        const response = await axios.post(
+            `${process.env.REACT_APP_ROOT_API}/createAntrian`,
+            {
+                data: {
+                    namaLengkap: dataDiri.nama_lengkap,
+                    noIdentitas: dataDiri.no_ktp,
+                    jenisKelamin: dataDiri.jk,
+                    alamat: dataDiri.alamat,
+                    email: dataDiri.email,
+                    noHp: dataDiri.no_hp,
+                    tanggalKedatangan: dataDiri.tanggal,
+                    jamKedatangan: dataDiri.waktu,
+                    idPelayanan: idPelayanan,
+                },
+            }
+        );
+        console.log('res get schedule', response);
+        return Promise.resolve(response.data);
+    } catch (error) {
+        console.log('err get schedule', error.request);
+        return Promise.reject(error);
+    }
 };
