@@ -3,7 +3,7 @@ import axios from 'axios';
 export const DownloadHandler = async (id) => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_ROOT_API}/download`,
+            `${process.env.REACT_APP_ROOT_API_DOWNLOAD}/download`,
             {
                 params: { id: id },
                 headers: {

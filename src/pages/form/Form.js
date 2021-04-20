@@ -23,6 +23,7 @@ import { CheckAvailableDateHandler } from '../../services/handlers/ScheduleHandl
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BookingHandler } from '../../services/handlers/BookingHandler';
 import Modals from '../../components/Modals';
+import { DownloadHandler } from '../../services/handlers/DownloadHandler';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -117,7 +118,7 @@ const Form = () => {
         email: '',
         no_hp: '',
         tanggal: '',
-        waktu: '',
+        waktu: 0,
     });
 
     const [errorNamaLengkap, setErrorNamaLengkap] = useState(false);
@@ -225,6 +226,7 @@ const Form = () => {
                     setIsLoading(false);
                     setIsAvailable(false);
                 } else {
+                    setArrAvailabelTime([]);
                     setIsAvailable(true);
                     setIsLoading(false);
                     setShowListAvailable(false);
@@ -247,7 +249,7 @@ const Form = () => {
 
     const [isLoadingBooking, setIsLoadingBooking] = useState(false);
 
-    const [atrianID, setAtrianID] = useState(null);
+    const [antrianID, setAntrianID] = useState(null);
 
     const onBookingPress = () => {
         if (valueDate === null) {
@@ -264,7 +266,7 @@ const Form = () => {
                 .then((res) => {
                     console.log('res booking', res);
                     if (res.status === 200) {
-                        setAtrianID(res.data.antiranID);
+                        setAntrianID(res.antrianID);
                         setIsLoadingBooking(false);
                         setStep(4);
                     }
@@ -286,9 +288,32 @@ const Form = () => {
         return () => {
             console.log('unmount timer');
         };
-    }, [countdownEmail]);
+    }, [step, countdownEmail]);
 
     console.log('dataDiri', dataDiri);
+
+    const onDownloadFile = () => {
+        DownloadHandler(antrianID)
+            .then((res) => {
+                console.log('res download', res);
+                const url = window.URL.createObjectURL(
+                    new Blob([res], { type: 'application/pdf' })
+                );
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute(
+                    'download',
+                    location.state.pelayanan +
+                        '-' +
+                        new Date().toLocaleDateString()
+                );
+                document.body.appendChild(link);
+                link.click();
+            })
+            .catch((err) => {
+                console.log('err download', err);
+            });
+    };
 
     return (
         <div className='form-wrapper'>
@@ -1337,7 +1362,7 @@ const Form = () => {
                                         <Buttons
                                             className='button-2'
                                             text='Selesai'
-                                            // onClick={() => setCountdownEmail(20)}
+                                            // onClick={() => setStep(3)}
                                             onClick={() => history.goBack()}
                                         />
                                         <Buttons
@@ -1359,7 +1384,7 @@ const Form = () => {
                                                     Download
                                                 </div>
                                             }
-                                            onClick={onBookingPress}
+                                            onClick={onDownloadFile}
                                         />
                                     </>
                                 )}

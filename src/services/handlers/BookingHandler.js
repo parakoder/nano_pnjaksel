@@ -7,23 +7,23 @@ export const BookingHandler = async (dataDiri, idPelayanan) => {
         const response = await axios.post(
             `${process.env.REACT_APP_ROOT_API}/createAntrian`,
             {
-                data: {
-                    namaLengkap: dataDiri.nama_lengkap,
-                    noIdentitas: dataDiri.no_ktp,
-                    jenisKelamin: dataDiri.jk,
-                    alamat: dataDiri.alamat,
-                    email: dataDiri.email,
-                    noHp: dataDiri.no_hp,
-                    tanggalKedatangan: dataDiri.tanggal,
-                    jamKedatangan: dataDiri.waktu,
-                    idPelayanan: idPelayanan,
-                },
+                // data: {
+                namaLengkap: dataDiri.nama_lengkap,
+                noIdentitas: dataDiri.no_ktp,
+                jenisKelamin: dataDiri.jk,
+                alamat: dataDiri.alamat,
+                email: dataDiri.email,
+                noHp: dataDiri.no_hp,
+                tanggalKedatangan: dataDiri.tanggal,
+                jamKedatangan: dataDiri.waktu,
+                idPelayanan: idPelayanan,
+                // },
             }
         );
-        console.log('res get schedule', response);
+        console.log('res post antrian', response);
         return Promise.resolve(response.data);
     } catch (error) {
-        console.log('err get schedule', error.request);
+        console.log('err post antrian', error.request);
         return Promise.reject(error);
     }
 };
