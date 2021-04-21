@@ -269,7 +269,7 @@ const Form = () => {
                 .then((res) => {
                     console.log('res booking', res);
                     if (res.status === 200) {
-                        setAntrianID(res.antrianID);
+                        setAntrianID(res.data.ID.toString());
                         setDataGenerate(res.data);
                         setIsLoadingBooking(false);
                         setStep(4);
@@ -298,6 +298,7 @@ const Form = () => {
 
     console.log('dataDiri', dataDiri);
 
+    console.log('antrianID', antrianID);
     const onDownloadFile = () => {
         DownloadHandler(antrianID)
             .then((res) => {
@@ -328,7 +329,7 @@ const Form = () => {
 
     const onGenerate = () => {
         const data = {
-            id: dataGenerate.ID,
+            id: dataGenerate.ID.toString(),
             jadwal: moment(dataGenerate.tanggalKedatangan).format('YYYY-MM-DD'),
             antrian: dataGenerate.noAntrian,
             loket: location.state.pelayanan,

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const GenerateEmail = async () => {
     try {
-        const response = await axios.get(
+        const response = await axios.post(
             `${process.env.REACT_APP_ROOT_API_DOWNLOAD}/generate`
         );
         console.log('res generate', response);
