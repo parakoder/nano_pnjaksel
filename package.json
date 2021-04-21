@@ -20,7 +20,7 @@
         "web-vitals": "^1.0.1"
     },
     "scripts": {
-        "start": "export PORT=4000 && react-scripts start",
+        "start": "set PORT=4000 && react-scripts start",
         "build": "react-scripts build",
         "build-dev": "dotenv -e .env.development react-scripts build",
         "test": "react-scripts test",
