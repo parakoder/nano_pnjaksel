@@ -18,12 +18,13 @@ import Fade from '@material-ui/core/Fade';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
-import { ARRIVAL_TIME } from '../../services/utils/constants';
+import { ARRIVAL_TIME, JAM_WIB } from '../../services/utils/constants';
 import { CheckAvailableDateHandler } from '../../services/handlers/ScheduleHandler';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { BookingHandler } from '../../services/handlers/BookingHandler';
 import Modals from '../../components/Modals';
 import { DownloadHandler } from '../../services/handlers/DownloadHandler';
+import { GenerateEmail } from '../../services/handlers/GenerateHandler';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -251,6 +252,8 @@ const Form = () => {
 
     const [antrianID, setAntrianID] = useState(null);
 
+    const [dataGenerate, setDataGenerate] = useState(null);
+
     const onBookingPress = () => {
         if (valueDate === null) {
             setErrorTgl(true);
@@ -267,13 +270,16 @@ const Form = () => {
                     console.log('res booking', res);
                     if (res.status === 200) {
                         setAntrianID(res.antrianID);
+                        setDataGenerate(res.data);
                         setIsLoadingBooking(false);
                         setStep(4);
                     }
                 })
                 .catch((err) => {
+                    if (err.request.status === 500) {
+                        alert('Terjadi Kesalahan. Silahkan Coba lagi.');
+                    }
                     console.log('err booking', err);
-                    alert(err);
                     setIsLoadingBooking(false);
                 });
         }
@@ -314,6 +320,32 @@ const Form = () => {
                 console.log('err download', err);
             });
     };
+
+    const findTimeWIB = (avTime) => {
+        const obj = JAM_WIB.find((o) => o.id === avTime);
+        return obj;
+    };
+
+    const onGenerate = () => {
+        const data = {
+            id: dataGenerate.ID,
+            jadwal: moment(dataGenerate.tanggalKedatangan).format('YYYY-MM-DD'),
+            antrian: dataGenerate.noAntrian,
+            loket: location.state.pelayanan,
+            email: dataGenerate.email,
+            name: dataGenerate.namaLengkap,
+            waktu: findTimeWIB(dataGenerate.jamKedatangan).time,
+        };
+        GenerateEmail(data)
+            .then((res) => {
+                console.log('generate', res);
+            })
+            .catch((err) => {
+                console.log('err', err);
+            });
+    };
+
+    console.log('dataGenerate', dataGenerate);
 
     return (
         <div className='form-wrapper'>
@@ -1309,6 +1341,7 @@ const Form = () => {
                                         </div>
                                         <div className='txt-countdown-resend'>
                                             <span
+                                                onClick={onGenerate}
                                                 style={{
                                                     cursor: 'pointer',
                                                     color: 'red',
