@@ -307,10 +307,7 @@ const Form = () => {
 				);
 				const link = document.createElement('a');
 				link.href = url;
-				link.setAttribute(
-					'download',
-					location.state.pelayanan + '-' + new Date().toLocaleDateString()
-				);
+				link.setAttribute('download', antrianID);
 				document.body.appendChild(link);
 				link.click();
 			})
