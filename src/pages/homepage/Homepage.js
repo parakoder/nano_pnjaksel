@@ -90,8 +90,6 @@ const Homepage = () => {
 
     const [isBurgerShow, setIsBurgerShow] = useState(true);
 
-    const onBurgerClick = () => {};
-
     return (
         <div className='home-wrapper'>
             <div className='header-wrapper'>
@@ -251,7 +249,7 @@ const Homepage = () => {
                         />
                     </div>
                     <div className='menu-layanan'>
-                        {menuLayanan.map((val, i) => {
+                        {menuLayanan.map((val) => {
                             return (
                                 <div key={val.id}>
                                     <CardLayanan
@@ -463,9 +461,12 @@ const Homepage = () => {
                                         <div className='modal-txt-desc-wrapper'>
                                             {selectedLayanan &&
                                                 selectedLayanan.description.map(
-                                                    (o) => {
+                                                    (o, i) => {
                                                         return (
-                                                            <div className='modal-txt-desc'>
+                                                            <div
+                                                                key={i}
+                                                                className='modal-txt-desc'
+                                                            >
                                                                 {o}
                                                             </div>
                                                         );
