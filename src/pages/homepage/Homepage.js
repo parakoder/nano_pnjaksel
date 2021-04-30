@@ -353,7 +353,7 @@ const Homepage = () => {
                         2. Nomor Antrian akan dikirim secara otomatis ke Alamat
                         Email Anda.
                         <br />
-                        3. Pastikan Anda datang 10 menit sebelum waktu
+                        3. Pastikan Anda datang 15 menit sebelum waktu
                         kedatangan yang Anda pilih, dengan membawa identitas
                         diri. Petugas akan mengecek kesesuian nomor antrian
                         dengan identitas Anda.
