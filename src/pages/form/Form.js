@@ -1212,12 +1212,12 @@ const Form = () => {
                                                                 date,
                                                                 view,
                                                             }) =>
-                                                                date.getDay() ===
-                                                                    6 ||
-                                                                date.getDay() ===
-                                                                    0 ||
+                                                                // date.getDay() ===
+                                                                //     6 ||
+                                                                // date.getDay() ===
+                                                                //     0 ||
                                                                 date <
-                                                                    new Date()
+                                                                new Date()
                                                             }
                                                         />
                                                     </div>
