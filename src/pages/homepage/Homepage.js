@@ -24,8 +24,8 @@ const Homepage = () => {
 
     const [selectedMenu, setSelectedMenu] = useState('layanan');
 
-    console.log('datanya', res);
-    console.log('datanya', IMAGESOURCE);
+    console.log('data res', res);
+    console.log('data imageSource', IMAGESOURCE);
 
     const [menuLayanan, setMenuLayanan] = useState([]);
 
@@ -459,7 +459,8 @@ const Homepage = () => {
                                             {selectedLayanan.pelayanan}
                                         </p>
                                         <div className='modal-txt-desc-wrapper'>
-                                            {selectedLayanan &&
+                                            {selectedLayanan.description !==
+                                                null &&
                                                 selectedLayanan.description.map(
                                                     (o, i) => {
                                                         return (
