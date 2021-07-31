@@ -483,11 +483,16 @@ const Homepage = () => {
                                             <Buttons
                                                 className='button-2'
                                                 text='Booking Now'
+                                                // onClick={() =>
+                                                //     history.push({
+                                                //         pathname: '/form',
+                                                //         state: selectedLayanan,
+                                                //     })
+                                                // }
                                                 onClick={() =>
-                                                    history.push({
-                                                        pathname: '/form',
-                                                        state: selectedLayanan,
-                                                    })
+                                                    alert(
+                                                        'Berhasil Mengambil Tiket'
+                                                    )
                                                 }
                                             />
                                         </div>
