@@ -17,6 +17,7 @@ import { IMAGESOURCE } from '../../services/utils/constants';
 import { useHistory } from 'react-router-dom';
 import { GetAllPelayanan } from '../../services/handlers/PelayananHandler';
 import Modals from '../../components/Modals';
+import { BookingOfflineHandler } from '../../services/handlers/BookingHandler';
 
 const Homepage = () => {
     const history = useHistory();
@@ -89,6 +90,17 @@ const Homepage = () => {
     };
 
     const [isBurgerShow, setIsBurgerShow] = useState(true);
+
+    const onBooking = () => {
+        BookingOfflineHandler()
+            .then((res) => {
+                console.log('onBooking', res);
+            })
+            .catch((err) => {
+                console.log('err booking', err);
+            });
+        setOpen(false);
+    };
 
     return (
         <div className='home-wrapper'>
@@ -489,11 +501,7 @@ const Homepage = () => {
                                                 //         state: selectedLayanan,
                                                 //     })
                                                 // }
-                                                onClick={() =>
-                                                    alert(
-                                                        'Berhasil Mengambil Tiket'
-                                                    )
-                                                }
+                                                onClick={onBooking}
                                             />
                                         </div>
                                     </div>
