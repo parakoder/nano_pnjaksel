@@ -92,14 +92,14 @@ const Homepage = () => {
     const [isBurgerShow, setIsBurgerShow] = useState(true);
 
     const onBooking = () => {
-        BookingOfflineHandler()
+        BookingOfflineHandler(selectedLayanan.id)
             .then((res) => {
                 console.log('onBooking', res);
+                setOpen(false);
             })
             .catch((err) => {
                 console.log('err booking', err);
             });
-        setOpen(false);
     };
 
     return (

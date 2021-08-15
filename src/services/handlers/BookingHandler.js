@@ -26,13 +26,13 @@ export const BookingHandler = async (dataDiri, idPelayanan) => {
     }
 };
 
-export const BookingOfflineHandler = async (body) => {
+export const BookingOfflineHandler = async (idPelayanan) => {
     // console.log('data handler', dataDiri);
     // console.log('id pel handler', idPelayanan);
     try {
         const response = await axios.post(
             `${process.env.REACT_APP_ROOT_API}/createAntrianOffline`,
-            body
+            { idPelayanan }
         );
         console.log('res post antrian', response);
         return Promise.resolve(response.data);
