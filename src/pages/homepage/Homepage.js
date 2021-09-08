@@ -104,7 +104,7 @@ const Homepage = () => {
 
     return (
         <div className='home-wrapper'>
-            <div className='header-wrapper'>
+            {/* <div className='header-wrapper'>
                 <div className='header'>
                     <div className='title-bar'>
                         <div className='title-bar-logo'>
@@ -240,7 +240,7 @@ const Homepage = () => {
                         </a>
                     </div>
                 ) : null}
-            </div>
+            </div> */}
 
             <div className='body'>
                 <img
@@ -278,7 +278,7 @@ const Homepage = () => {
                         })}
                     </div>
                 </div>
-                <div className='section-2'>
+                {/* <div className='section-2'>
                     <div style={{ marginTop: 50, marginBottom: 50 }}>
                         <Buttons
                             id='pengambilan'
@@ -370,9 +370,9 @@ const Homepage = () => {
                         diri. Petugas akan mengecek kesesuian nomor antrian
                         dengan identitas Anda.
                     </p>
-                </div>
+                </div> */}
             </div>
-            <div className='footer'>
+            {/* <div className='footer'>
                 <div className='footer-section1'>
                     <div className='footer-section1-content1'>
                         <p className='footer-content-title'>
@@ -436,7 +436,7 @@ const Homepage = () => {
                 <p className='footer-section2'>
                     © Copyright 2021 Pengadilan Negeri Jakarta Selatan
                 </p>
-            </div>
+            </div> */}
             <Modals
                 open={open}
                 onClose={handleClose}
