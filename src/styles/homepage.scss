@@ -3,6 +3,7 @@
 .home-wrapper {
     display: flex;
     flex-direction: column;
+    height: 100%;
 
     .header-wrapper {
         display: flex;
@@ -89,10 +90,10 @@
                     align-items: center;
                     justify-content: space-evenly;
                     font-size: 16px;
-                        @include media('<=tablet') {
-                            display: none;
-                        }
+                    @include media('<=tablet') {
+                        display: none;
                     }
+                }
 
                 .burger-menu {
                     align-self: center;
@@ -120,7 +121,6 @@
             }
         }
     }
-
 
     .body {
         display: flex;
