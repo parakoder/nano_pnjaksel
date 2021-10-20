@@ -89,10 +89,10 @@
                     align-items: center;
                     justify-content: space-evenly;
                     font-size: 16px;
-                        @include media('<=tablet') {
-                            display: none;
-                        }
+                    @include media('<=tablet') {
+                        display: none;
                     }
+                }
 
                 .burger-menu {
                     align-self: center;
@@ -120,7 +120,6 @@
             }
         }
     }
-
 
     .body {
         display: flex;
@@ -162,6 +161,40 @@
                 flex-wrap: wrap;
                 flex-basis: 40%;
                 align-items: center;
+            }
+
+            .section-persyaratan {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                // border: 1px solid black;
+                // margin-top: 30px;
+                margin-bottom: 20px;
+
+                @include media('<tablet') {
+                    justify-content: center;
+                    margin-top: 20px;
+                }
+
+                .btn-persyaratan {
+                    padding: 5px 15px;
+                    border: 2px solid white;
+                    border-radius: 15px;
+                    color: white;
+                    font-weight: 500;
+                    margin: 0px 15px;
+                    cursor: pointer;
+                    text-decoration: none;
+
+                    &:hover {
+                        border: 2px solid #f8e086;
+                        color: #f8e086;
+                    }
+
+                    @include media('<tablet') {
+                        margin: 10px 10px 20px 10px;
+                    }
+                }
             }
         }
 
