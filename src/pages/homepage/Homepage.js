@@ -372,8 +372,8 @@ const Homepage = () => {
                             </div>
                         </a>
                     </div>
-                </div>
-                <div className='section-3'>
+                </div> */}
+                {/* <div className='section-3'>
                     <div style={{ marginTop: 30, marginBottom: 30 }}>
                         <Buttons
                             id='ketentuan'
