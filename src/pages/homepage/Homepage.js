@@ -260,6 +260,29 @@ const Homepage = () => {
                             text='Pilih Meja Layanan'
                         />
                     </div>
+                    <div className='section-persyaratan'>
+                        <a
+                            href='http://google.com'
+                            target='_blank'
+                            className='btn-persyaratan'
+                        >
+                            Persyaratan 1
+                        </a>
+                        <a
+                            href='http://google.com'
+                            target='_blank'
+                            className='btn-persyaratan'
+                        >
+                            Persyaratan 2
+                        </a>
+                        <a
+                            href='http://google.com'
+                            target='_blank'
+                            className='btn-persyaratan'
+                        >
+                            Persyaratan 3
+                        </a>
+                    </div>
                     <div className='menu-layanan'>
                         {menuLayanan.map((val) => {
                             return (
