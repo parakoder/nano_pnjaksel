@@ -165,39 +165,39 @@
                 align-items: center;
             }
 
-            .section-persyaratan {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                // border: 1px solid black;
-                // margin-top: 30px;
-                margin-bottom: 20px;
+            // .section-persyaratan {
+            //     display: flex;
+            //     flex-direction: row;
+            //     flex-wrap: wrap;
+            //     // border: 1px solid black;
+            //     // margin-top: 30px;
+            //     margin-bottom: 20px;
 
-                @include media('<tablet') {
-                    justify-content: center;
-                    margin-top: 20px;
-                }
+            //     @include media('<tablet') {
+            //         justify-content: center;
+            //         margin-top: 20px;
+            //     }
 
-                .btn-persyaratan {
-                    padding: 5px 15px;
-                    border: 2px solid white;
-                    border-radius: 15px;
-                    color: white;
-                    font-weight: 500;
-                    margin: 0px 15px;
-                    cursor: pointer;
-                    text-decoration: none;
+            //     .btn-persyaratan {
+            //         padding: 5px 15px;
+            //         border: 2px solid white;
+            //         border-radius: 15px;
+            //         color: white;
+            //         font-weight: 500;
+            //         margin: 0px 15px;
+            //         cursor: pointer;
+            //         text-decoration: none;
 
-                    &:hover {
-                        border: 2px solid #f8e086;
-                        color: #f8e086;
-                    }
+            //         &:hover {
+            //             border: 2px solid #f8e086;
+            //             color: #f8e086;
+            //         }
 
-                    @include media('<tablet') {
-                        margin: 10px 10px 20px 10px;
-                    }
-                }
-            }
+            //         @include media('<tablet') {
+            //             margin: 10px 10px 20px 10px;
+            //         }
+            //     }
+            // }
         }
 
         .section-2 {
